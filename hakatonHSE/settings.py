@@ -25,7 +25,7 @@ SECRET_KEY = '6u@2bt&89@&k74apmi3s$)!p=yfx78@qtl@zn1tkz61+@$k4zz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['makarovv25.pythonanywhere.com', '127.0.0.1:8000']
 
 
 # Application definition
