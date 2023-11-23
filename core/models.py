@@ -4,10 +4,9 @@ from django.contrib.auth.models import User  # Импортируем модел
 
 class ArduinoDevices(models.Model):
     numArduino = models.CharField(max_length=100)
-    isOkno = models.BooleanField()
 
 
-class Windows(models.Model):
+class Devices(models.Model):
     numArduino = models.CharField(max_length=100)
     idDevice = models.ForeignKey(
         ArduinoDevices,
@@ -15,17 +14,9 @@ class Windows(models.Model):
         related_name="windows",
         null=True
     )
-    windowName = models.CharField(max_length=200, null=True)
+    name = models.CharField(max_length=200, null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-
-
-class Rooms(models.Model):
-    numArduino = models.CharField(max_length=100)
-    idDevice = models.ForeignKey(
-        ArduinoDevices,
-        on_delete=models.CASCADE,
-        related_name="rooms",
-        null=True
-    )
-    roomName = models.CharField(max_length=200)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    temperature = models.FloatField(null=True),
+    vlazhnost = models.FloatField(null=True),
+    gaz = models.FloatField(null=True),
+    windowsAreOpened = models.BooleanField(default=False)

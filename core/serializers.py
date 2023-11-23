@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-from arduino.models import ArduinoDevices, Windows, Rooms
+from .models import ArduinoDevices, Devices
 
 
 class ArduinoDevicesSerializers(serializers.ModelSerializer):
@@ -11,41 +11,21 @@ class ArduinoDevicesSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class WindowsSerializers(serializers.ModelSerializer):
+class DevicesSerializers(serializers.ModelSerializer):
     class Meta:
-        model = Windows
+        model = Devices
         fields = '__all__'
 
     def create(self, validated_data):
         validated_data['user'] = self.context['request'].user
         num_arduino = validated_data.get('numArduino')
-        existing_device = ArduinoDevices.objects.filter(numArduino=num_arduino, isOkno=True).first()
+        existing_device = ArduinoDevices.objects.filter(numArduino=num_arduino).first()
 
         if existing_device:
             validated_data['idDevice'] = existing_device
             return super().create(validated_data)
         else:
-            raise ValidationError("Устройство с номером платы Arduino не найдено. Возможно вы регистрируете не окно, "
-                                  "а комнату...")
-
-
-class RoomsSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = Rooms
-        fields = '__all__'
-
-    def create(self, validated_data):
-        validated_data['user'] = self.context['request'].user
-        num_arduino = validated_data.get('numArduino')
-        existing_device = ArduinoDevices.objects.filter(numArduino=num_arduino, isOkno=False).first()
-
-        if existing_device:
-            validated_data['idDevice'] = existing_device
-            return super().create(validated_data)
-
-        else:
-            raise ValidationError("Устройство с номером платы Arduino не найдено. Возможно вы регистрируете не "
-                                  "комнату, а окно...")
+            raise ValidationError("Устройство с номером платы Arduino не найдено")
 
 
 class RegisterSerializer(serializers.ModelSerializer):

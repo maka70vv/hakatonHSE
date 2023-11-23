@@ -37,9 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'datchiki',
     'rest_framework',
-    'arduino',
+    'core',
 ]
 
 LOGIN_URL = "/api/v1/signin"

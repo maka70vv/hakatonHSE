@@ -1,6 +1,6 @@
 from rest_framework import generics
-from .models import ArduinoDevices, Windows, Rooms
-from .serializers import ArduinoDevicesSerializers, WindowsSerializers, RoomsSerializers, RegisterSerializer, \
+from .models import ArduinoDevices, Devices
+from .serializers import ArduinoDevicesSerializers, DevicesSerializers, RegisterSerializer, \
     UserSerializer
 from rest_framework import generics, permissions
 from rest_framework.response import Response
@@ -27,12 +27,6 @@ class DevicesView(generics.ListCreateAPIView):
 
 
 class WindowsView(generics.ListCreateAPIView):
-    queryset = Windows.objects.all()
-    serializer_class = WindowsSerializers
-    permission_classes = [permissions.IsAuthenticated]
-
-
-class RoomsView(generics.ListCreateAPIView):
-    queryset = Rooms
-    serializer_class = RoomsSerializers
+    queryset = Devices.objects.all()
+    serializer_class = DevicesSerializers
     permission_classes = [permissions.IsAuthenticated]
