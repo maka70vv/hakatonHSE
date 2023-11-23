@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import DevicesView, WindowsView, RegisterView, DevicesByUserView, DevicesDetailView, toggle_windows_status, \
-    block_windows
+from .views import DevicesView, WindowsView, RegisterView, DevicesByUserView, DevicesDetailView, \
+    toggle_windows_status, block_windows
 
 urlpatterns = [
     path("arduino-devices/", DevicesView.as_view()),
