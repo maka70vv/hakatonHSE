@@ -1,3 +1,14 @@
-from django.shortcuts import render
+from rest_framework import generics
 
-# Create your views here.
+from datchiki.models import WindowInfo, RoomInfo
+from datchiki.serializers import WindowInfoSerializers, RoomInfoSerializers
+
+
+class WindowInfoView(generics.ListCreateAPIView):
+    queryset = WindowInfo.objects.all()
+    serializer_class = WindowInfoSerializers
+
+
+class RoomInfoView(generics.ListCreateAPIView):
+    queryset = RoomInfo.objects.all()
+    serializer_class = RoomInfoSerializers

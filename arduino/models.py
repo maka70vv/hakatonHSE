@@ -11,7 +11,8 @@ class Windows(models.Model):
     idDevice = models.ForeignKey(
         ArduinoDevices,
         on_delete=models.CASCADE,
-        related_name="windows"
+        related_name="windows",
+        # null=True
     )
     windowName = models.CharField(max_length=200, null=True)
 

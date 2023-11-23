@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'datchiki',
     'rest_framework',
-    'arduino'
+    'arduino',
 ]
 
 MIDDLEWARE = [
