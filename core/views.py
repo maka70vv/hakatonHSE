@@ -1,3 +1,7 @@
+import json
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics, status
 from rest_framework.decorators import api_view, permission_classes
 
@@ -94,3 +98,44 @@ def block_windows(request, device_id):
         return Response(serializer.data)
     elif device.windowsAreOpened and not device.windowsAreBlocked:
         return Response({"error": "Окна открыты! Закройте, чтобы заблокировать"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@csrf_exempt
+def update_device(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            num_arduino = data.get('numArduino')
+            temperature = data.get('temperature')
+            vlazhnost = data.get('vlazhnost')
+            gaz = data.get('gaz')
+
+            device = Devices.objects.get(numArduino=num_arduino)
+            device.temperature = temperature
+            device.vlazhnost = vlazhnost
+            device.gaz = gaz
+
+            if temperature > 30 and not device.windowsAreBlocked and not device.windowsAreOpened:
+                device.windowsAreOpened = True
+            elif temperature < 20 and device.windowsAreOpened:
+                device.windowsAreOpened = False
+            elif vlazhnost > 50 and not device.windowsAreBlocked and not device.windowsAreOpened:
+                device.windowsAreOpened = True
+            elif vlazhnost < 30 and device.windowsAreOpened:
+                device.windowsAreOpened = False
+            elif gaz > 1.5 and not device.windowsAreBlocked and not device.windowsAreOpened:
+                device.windowsAreOpened = True
+            elif gaz < 0.5 and device.windowsAreOpened:
+                device.windowsAreOpened = False
+            elif gaz > 3 and not device.windowsAreOpened:
+                device.windowsAreOpened = True
+
+            device.save()
+
+            return JsonResponse({'status': 'success'})
+        except Devices.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Устройство не найдено'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
+
+    return JsonResponse({'status': 'error', 'message': 'Метод не поддерживается'})
