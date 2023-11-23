@@ -28,6 +28,19 @@ class DevicesSerializers(serializers.ModelSerializer):
             raise ValidationError("Устройство с номером платы Arduino не найдено")
 
 
+class WindowsListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Devices
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        user = self.context['request'].user
+        if instance.user == user:
+            return super().to_representation(instance)
+        else:
+            return None
+
+
 class RegisterSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(write_only=True)
 

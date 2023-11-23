@@ -1,7 +1,7 @@
 from rest_framework import generics
 from .models import ArduinoDevices, Devices
 from .serializers import ArduinoDevicesSerializers, DevicesSerializers, RegisterSerializer, \
-    UserSerializer
+    UserSerializer, WindowsListSerializer
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 
@@ -23,6 +23,12 @@ class RegisterView(generics.GenericAPIView):
 class DevicesView(generics.ListCreateAPIView):
     queryset = ArduinoDevices.objects.all()
     serializer_class = ArduinoDevicesSerializers
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class DevicesByUserView(generics.ListCreateAPIView):
+    queryset = Devices.objects.all()
+    serializer_class = WindowsListSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 

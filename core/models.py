@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User  # Импортируем модель пользователя Django
+from django.contrib.auth.models import User
 
 
 class ArduinoDevices(models.Model):
@@ -20,3 +20,4 @@ class Devices(models.Model):
     vlazhnost = models.FloatField(null=True),
     gaz = models.FloatField(null=True),
     windowsAreOpened = models.BooleanField(default=False)
+    windowsAreBlocked = models.BooleanField(default=False)
