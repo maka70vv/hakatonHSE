@@ -31,6 +31,21 @@ class DevicesView(generics.ListCreateAPIView):
     serializer_class = ArduinoDevicesSerializers
     permission_classes = [permissions.IsAuthenticated]
 
+    def create(self, request, *args, **kwargs):
+        # Получаем данные из запроса
+        data = request.data
+        # Проверяем, существует ли устройство с таким именем в базе данных
+        existing_device = ArduinoDevices.objects.filter(numArduino=data['numArduino']).first()
+
+        if existing_device:
+            # Если устройство с таким именем уже существует, возвращаем ошибку
+            return Response({'detail': 'Device with this name already exists.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Если устройства с таким именем нет, продолжаем создание
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+
 
 class DevicesByUserView(generics.ListCreateAPIView):
     queryset = Devices.objects.all()
