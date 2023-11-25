@@ -38,7 +38,7 @@ class WindowsListSerializer(serializers.ModelSerializer):
         if instance.user == user:
             return super().to_representation(instance)
         else:
-            return None
+            return serializers.Serializer({"name": "chuzhoi"})
 
 
 class RegisterSerializer(serializers.ModelSerializer):
