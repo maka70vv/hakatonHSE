@@ -22,9 +22,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '6u@2bt&89@&k74apmi3s$)!p=yfx78@qtl@zn1tkz61+@$k4zz'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['makarovv25.pythonanywhere.com', '127.0.0.1']
+ALLOWED_HOSTS = ['makarovv25.pythonanywhere.com', '127.0.0.1', '34.134.217.143']
 
 # Application definition
 
